@@ -18,7 +18,7 @@ user_list = [
 		'__client_id': '****************************************',
 		'_uid': '*****'
 	}
-]	
+]
 
 def get_real_color(c):
 	if len(c) > 1:
@@ -56,12 +56,15 @@ def paint(x, y, color):
 	status = json.loads(request.content)['status']
 	if status == 200:
 		print('[200] Success by', cookies['_uid'], '!')
+		return True
 	elif status == 401:
 		print('[401] Not login.')
 	elif status == 500:
-		print('[500] Please wait for trying again.')
+		# print('[500] Please wait for trying again.')
+		pass
 	else:
 		print('[???] Unknown error.')
+	return False
 
 def get_todo():
 	content = open('todo.list', 'r+').read()
@@ -73,6 +76,14 @@ def get_todo():
 		todolist.append(info(x, y, c))
 	return todolist
 
+def clear_todo(todolist):
+	board = get_board()
+	answer = []
+	for todo in todolist:
+		if get_real_color(board[todo.x][todo.y]) != todo.c:
+			answer.append(todo)
+	return answer
+
 def check(x, y, color):
 	board = get_board()
 	now_color = get_real_color(board[x][y])
@@ -83,15 +94,18 @@ def check(x, y, color):
 
 while True:
 	todolist = get_todo()
+	todolist = clear_todo(todolist)
+	print(len(todolist))
 	for todo in todolist:
 		print('todo (', todo.x, ',', todo.y, ') to', todo.c)
 		try:
-			while not check(todo.x, todo.y, todo.c):
-				print('paint (', todo.x, ',', todo.y, ') to', todo.c)
+			success = False
+			while not success:
+				# print('paint (', todo.x, ',', todo.y, ') to', todo.c)
 				for user in user_list:
 					cookies = user
-					paint(todo.x, todo.y, todo.c)
-					if check(todo.x, todo.y, todo.c):
+					success = paint(todo.x, todo.y, todo.c)
+					if success:
 						break
 		except:
 			print('error')
