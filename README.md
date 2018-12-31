@@ -27,6 +27,6 @@ Cookies 存在 `cookies.list` 文件中，可以有任意多行，每行一个�
 
 ### 图片转换
 
-~~先将图片转换为 ppm 格式，再用 https://github.com/quank123wip/ppmanalyzer 转化为 todo list .~~
-
 咕咕咕
+
+对不起这部分咕了（写题去了（逃
