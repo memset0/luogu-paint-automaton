@@ -24,28 +24,28 @@ class info:
 		self.y = int(y) + delta_y
 		self.c = get_real_color(c)
 
-def request_get(url):
+def requests_get(url):
 	while True:
 		try:
 			req = requests.get(url, verify=False,
-				headers=headers, cookies=cookies, timeout=10)
+			headers=headers, cookies=cookies, timeout=10)
 		except:
-			continue
+			pass
 		break
 	return req
 
-def request_post(url, data=None):
+def requests_post(url, data=None):
 	while True:
 		try:
 			req = requests.post(url, verify=False,
-				headers=headers, cookies=cookies, data=data, timeout=10)
+			headers=headers, cookies=cookies, data=data, timeout=10)
 		except:
-			continue
+			pass
 		break
 	return req
 
 def get_board():
-	request = request_get('https://www.luogu.org/paintBoard/board')
+	request = requests_get('https://www.luogu.org/paintBoard/board')
 	with open('board.out', 'wb+') as file:
 		file.write(request.content)
 		file.close()
@@ -62,13 +62,13 @@ def get_board():
 
 def paint(x, y, color):
 	data = { 'x': x, 'y': y, 'color': color }
-	request = request_post('https://www.luogu.org/paintBoard/paint', data)
+	request = requests_post('https://www.luogu.org/paintBoard/paint', data)
 	status = json.loads(request.content)['status']
 	if status == 200:
 		print('[200] Success by', cookies['_uid'], '!')
 		return True
 	elif status == 401:
-		print('[401] Not login.')
+		print('[401] Not login. (', cookies['_uid'], ')')
 	elif status == 500:
 		# print('[500] Please wait for trying again.')
 		pass
