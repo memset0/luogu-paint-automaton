@@ -9,16 +9,6 @@ headers = {
 }
 
 cookies = { '__client_id': '', '_uid': '' }
-user_list = [
-	{
-		'__client_id': '****************************************', # Do not show it to others
-		'_uid': '*****' # enter your own user id
-	},
-	{
-		'__client_id': '****************************************',
-		'_uid': '*****'
-	}
-]
 
 def get_real_color(c):
 	if len(c) > 1:
@@ -96,6 +86,17 @@ def get_todo():
 		todolist.append(info(x, y, c))
 	return todolist
 
+def get_cookies():
+	content = open('cookies.list', 'r+').read()
+	cookies_list = []
+	for line in content.split('\n'):
+		cookies = {}
+		if len(line.split(' ')) < 2:
+			continue
+		cookies['__client_id'], cookies['_uid'] = line.split(' ')
+		cookies_list.append(cookies)
+	return cookies_list
+
 def clear_todo(todolist):
 	board = get_board()
 	answer = []
@@ -112,11 +113,16 @@ def check(x, y, color):
 	else:
 		return False
 
-if __name__ == __main__:
+if __name__ == '__main__':
 	while True:
-		todolist = get_todo()
-		todolist = clear_todo(todolist)
-		print(len(todolist))
+
+		todolist = clear_todo(get_todo())
+		cookies_list = get_cookies()
+		if len(todolist):
+			print('length of todolist is', len(todolist))
+		else:
+			print('nothing to do.')
+
 		for todo in todolist:
 			print('todo (', todo.x, ',', todo.y, ') to', todo.c)
 			try:
