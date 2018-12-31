@@ -34,8 +34,28 @@ class info:
 		self.y = int(y) + delta_y
 		self.c = get_real_color(c)
 
+def request_get(url):
+	while True:
+		try:
+			req = requests.get(url, verify=False,
+				headers=headers, cookies=cookies, timeout=10)
+		except:
+			continue
+		break
+	return req
+
+def request_post(url, data=None):
+	while True:
+		try:
+			req = requests.post(url, verify=False,
+				headers=headers, cookies=cookies, data=data, timeout=10)
+		except:
+			continue
+		break
+	return req
+
 def get_board():
-	request = requests.get('https://www.luogu.org/paintBoard/board', verify=False, headers=headers, cookies=cookies)
+	request = request_get('https://www.luogu.org/paintBoard/board')
 	with open('board.out', 'wb+') as file:
 		file.write(request.content)
 		file.close()
@@ -52,7 +72,7 @@ def get_board():
 
 def paint(x, y, color):
 	data = { 'x': x, 'y': y, 'color': color }
-	request = requests.post('https://www.luogu.org/paintBoard/paint', verify=False, headers=headers, cookies=cookies, data=data)
+	request = request_post('https://www.luogu.org/paintBoard/paint', data)
 	status = json.loads(request.content)['status']
 	if status == 200:
 		print('[200] Success by', cookies['_uid'], '!')
