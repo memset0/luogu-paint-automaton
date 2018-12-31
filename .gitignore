@@ -1,6 +1,8 @@
 cookies.list
 todo.list
 board.out
+.vscode/settings.json
+makelist.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
