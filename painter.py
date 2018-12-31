@@ -112,20 +112,21 @@ def check(x, y, color):
 	else:
 		return False
 
-while True:
-	todolist = get_todo()
-	todolist = clear_todo(todolist)
-	print(len(todolist))
-	for todo in todolist:
-		print('todo (', todo.x, ',', todo.y, ') to', todo.c)
-		try:
-			success = False
-			while not success:
-				# print('paint (', todo.x, ',', todo.y, ') to', todo.c)
-				for user in user_list:
-					cookies = user
-					success = paint(todo.x, todo.y, todo.c)
-					if success:
-						break
-		except:
-			print('error')
+if __name__ == __main__:
+	while True:
+		todolist = get_todo()
+		todolist = clear_todo(todolist)
+		print(len(todolist))
+		for todo in todolist:
+			print('todo (', todo.x, ',', todo.y, ') to', todo.c)
+			try:
+				success = check(todo.x, todo.y, todo.c)
+				while not success:
+					# print('paint (', todo.x, ',', todo.y, ') to', todo.c)
+					for user in cookies_list:
+						cookies = user
+						success = paint(todo.x, todo.y, todo.c)
+						if success:
+							break
+			except:
+				print('error')
