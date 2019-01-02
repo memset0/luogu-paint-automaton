@@ -49,7 +49,7 @@ def get_board():
 	with open('board.out', 'wb+') as file:
 		file.write(request.content)
 		file.close()
-	content = str(request.content).split('\\n')
+	content = request.content.decode('ascii').split('\n')
 	board = []
 	for i in range(0, 800):
 		line = []
